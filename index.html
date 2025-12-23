@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>中文識字通 (V18.1 穩定修復版)</title>
+<title>中文識字通 (V18.2 語文強化版)</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/cnchar/cnchar.min.js"></script>
@@ -26,6 +26,7 @@
     }
     h1 { color: var(--primary); letter-spacing: 2px; margin-bottom: 20px; text-shadow: 2px 2px 0 #fff; }
     
+    /* 工具列 */
     .toolbar {
         position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); padding: 10px;
         display: flex; justify-content: center; gap: 15px; backdrop-filter: blur(5px);
@@ -37,30 +38,36 @@
         background: white; color: var(--primary); font-weight: bold; cursor: pointer; transition: 0.2s;
     }
     .tool-btn:hover { background: var(--primary-light); transform: translateY(-2px); }
-    .tool-btn.active-mode { background: var(--primary); color: white; box-shadow: inset 0 2px 5px rgba(0,0,0,0.2); }
+    .tool-btn.active-mode { background: var(--primary); color: white; }
     
     .star-counter {
         display: flex; align-items: center; gap: 5px; font-size: 20px; font-weight: bold; color: var(--primary);
         background: white; padding: 5px 15px; border-radius: 20px; border: 2px solid #FFD54F;
     }
 
+    /* 輸入區 */
     .input-section {
         background: var(--bg-white); padding: 30px; border-radius: var(--radius-box);
         box-shadow: 0 10px 25px rgba(93,64,55,0.1); display: inline-block;
         margin: 30px 0; border: 4px solid #FFCC80; position: relative;
     }
     input[type="text"] {
-        font-size: 28px; padding: 10px; width: 300px; border: 2px solid #FFCC80; border-radius: 10px; text-align: center; color: var(--text-main);
+        font-size: 28px; padding: 10px; width: 300px; text-align: center; color: var(--text-main);
+        border: 2px solid #FFCC80; border-radius: 10px;
     }
     button.main-btn {
-        font-size: 24px; padding: 10px 30px; margin-left: 10px; background-color: var(--primary); color: white;
-        border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 0 #E65100;
+        font-size: 24px; padding: 10px 30px; margin-left: 10px; background-color: var(--primary);
+        color: white; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 0 #E65100;
     }
     button.main-btn:active { transform: translateY(4px); box-shadow: none; }
 
-    #qrcode-container { display: none; flex-direction: column; align-items: center; margin-top: 20px; padding: 20px; background: #fff3e0; border-radius: 15px; border: 2px dashed #ffb74d; }
-    #characters-container { display: flex; flex-direction: column; align-items: center; gap: 40px; transition: 0.3s; }
-    
+    #qrcode-container {
+        display: none; flex-direction: column; align-items: center; margin-top: 20px;
+        padding: 20px; background: #fff3e0; border-radius: 15px; border: 2px dashed #ffb74d;
+    }
+
+    /* 卡片容器 */
+    #characters-container { display: flex; flex-direction: column; align-items: center; gap: 40px; }
     .word-group-wrapper {
         background: var(--bg-white); width: 95%; max-width: 1400px; padding: 30px;
         border-radius: var(--radius-box); box-shadow: 0 15px 30px rgba(93,64,55,0.08);
@@ -68,56 +75,110 @@
     }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .word-group-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #FFECB3; padding-bottom: 15px; margin-bottom: 20px; }
+    .word-group-header {
+        display: flex; justify-content: space-between; align-items: center;
+        border-bottom: 2px dashed #FFECB3; padding-bottom: 15px; margin-bottom: 20px;
+    }
     .title-block { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
     .word-title { font-size: 56px; font-weight: bold; color: var(--primary); line-height: 1.2; }
-    .word-pos-tag { font-size: 20px; padding: 6px 15px; border-radius: 20px; color: white; font-weight: bold; background-color: #78909c; margin-left: 10px; }
-    .word-pos-tag.noun { background-color: #29B6F6; } .word-pos-tag.verb { background-color: #66BB6A; } .word-pos-tag.adj { background-color: #FFA726; }
+    .word-pos-tag {
+        font-size: 20px; padding: 6px 15px; border-radius: 20px; color: white; font-weight: bold;
+        background-color: #78909c; margin-left: 10px;
+    }
+    .word-pos-tag.noun { background-color: #29B6F6; }
+    .word-pos-tag.verb { background-color: #66BB6A; }
+    .word-pos-tag.adj { background-color: #FFA726; }
     
-    .audio-controls button { background: var(--primary-light); color: var(--text-main); border: 2px solid #FFE0B2; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-left: 10px; }
+    .audio-controls button {
+        background: var(--primary-light); color: var(--text-main); border: 2px solid #FFE0B2;
+        padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-left: 10px;
+    }
 
+    /* Tab 分頁 */
     .tab-container { width: 100%; margin-bottom: 20px; }
     .tab-header { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-    .tab-btn { padding: 10px 25px; border-radius: 20px; border: 2px solid #ddd; background: #f5f5f5; color: #888; font-weight: bold; cursor: pointer; font-size: 20px; transition: 0.2s; }
-    .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(255,143,0,0.3); transform: scale(1.1); }
-    .tab-content { display: none; animation: fadeIn 0.3s; }
-    .tab-content.active { display: block; }
+    .tab-btn {
+        padding: 10px 25px; border-radius: 20px; border: 2px solid #ddd; background: #f5f5f5;
+        color: #888; font-weight: bold; cursor: pointer; font-size: 22px; transition: 0.2s;
+    }
+    .tab-btn.active {
+        background: var(--primary); color: white; border-color: var(--primary);
+        box-shadow: 0 4px 10px rgba(255,143,0,0.3); transform: scale(1.1);
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    .single-char-section { background: #FFF8E1; border-radius: 20px; padding: 25px; margin-bottom: 20px; border: 2px solid #FFE0B2; }
-    
-    /* 筆畫拆解置頂 */
-    .breakdown-section { background: white; padding: 15px; border-radius: 15px; border: 1px solid #FFCC80; margin-bottom: 20px; margin-top: 10px; }
+    /* 單字區 */
+    .single-char-section {
+        background: #FFF8E1; border-radius: 20px; padding: 25px; margin-bottom: 20px; border: 2px solid #FFE0B2;
+    }
+    /* 調整佈局：拆解在上 */
+    .breakdown-section {
+        background: white; padding: 15px; border-radius: 15px; border: 1px solid #FFCC80;
+        margin-bottom: 25px; /* 增加底部距離 */
+    }
     .breakdown-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
     
+    /* 下方練習區 */
     .char-main-row { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
     .char-block-item { display: flex; flex-direction: column; align-items: center; }
-    .visual-label { font-size: 20px; font-weight: bold; color: var(--text-main); margin-bottom: 15px; width: 100%; border-left: 6px solid var(--primary); padding-left: 10px; }
+    .visual-label {
+        font-size: 20px; font-weight: bold; color: var(--text-main); margin-bottom: 15px;
+        width: 100%; border-left: 6px solid var(--primary); padding-left: 10px;
+    }
     
-    .grid-box { width: var(--grid-size); height: var(--grid-size); background-color: white; border-radius: 15px; border: 4px solid var(--primary); position: relative; background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxsaW5lIHgxPSI1MCUiIHkxPSIwIiB4Mj0iNTAlIiB5Mj0iMTAwJSIgc3Ryb2tlPSIjZmZjY2NjIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjgsOCIvPjxsaW5lIHgxPSIwIiB5MT0iNTAlIiB4Mj0iMTAwJSIgeTI9IjUwJSIgc3Ryb2tlPSIjZmZjY2NjIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjgsOCIvPjwvc3ZnPg=="); background-size: 100% 100%; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .grid-box {
+        width: var(--grid-size); height: var(--grid-size); background-color: white; border-radius: 15px;
+        border: 4px solid var(--primary); position: relative;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxsaW5lIHgxPSI1MCUiIHkxPSIwIiB4Mj0iNTAlIiB5Mj0iMTAwJSIgc3Ryb2tlPSIjZmZjY2NjIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjgsOCIvPjxsaW5lIHgxPSIwIiB5MT0iNTAlIiB4Mj0iMTAwJSIgeTI9IjUwJSIgc3Ryb2tlPSIjZmZjY2NjIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjgsOCIvPjwvc3ZnPg==");
+        background-size: 100% 100%; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
     .grid-box.hide-lines { background-image: none; }
     @media (max-width: 768px) { :root { --grid-size: 200px; } .word-title { font-size: 40px; } }
 
-    .small-btn { padding: 5px 15px; border-radius: 15px; border: 1px solid #ccc; background: white; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 5px; }
+    .small-btn {
+        padding: 5px 15px; border-radius: 15px; border: 1px solid #ccc; background: white;
+        cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 5px;
+    }
     .toggle-active { background: #C8E6C9; border-color: #4CAF50; color: #2E7D32; font-weight: bold; }
 
-    .step-box { width: 60px; height: 60px; border: 1px solid #ccc; border-radius: 8px; position: relative; background: white; display: flex; justify-content: center; align-items: center; }
+    /* 拆解步驟格 */
+    .step-box {
+        width: 60px; height: 60px; border: 1px solid #ccc; border-radius: 8px; position: relative;
+        background: white; display: flex; justify-content: center; align-items: center;
+    }
     .step-box svg { width: 100%; height: 100%; display: block; }
     .step-number { position: absolute; bottom: 2px; right: 2px; font-size: 10px; color: #999; }
     .step-box.is-last { border: 2px solid var(--accent); }
 
-    .word-definition-footer { margin-top:20px; border-top: 2px dashed #FFECB3; padding-top:15px; background: #F1F8E9; padding: 20px; border-radius: 15px; }
+    /* 解釋與造句 */
+    .word-definition-footer {
+        margin-top:20px; border-top: 2px dashed #FFECB3; padding-top:15px;
+        background: #F1F8E9; padding: 20px; border-radius: 15px;
+    }
     .js-def-text { white-space: pre-wrap; line-height: 1.8; text-align: left; color: #333; font-size: 18px; margin-bottom: 15px; }
     .sentence-list { margin: 0; padding-left: 25px; text-align: left; }
     .sentence-item { margin-bottom: 10px; line-height: 1.8; color: #555; font-size: 19px; }
-    .highlight { color: #d84315; font-weight: bold; background: #FFCCBC; padding: 0 4px; border-radius: 4px; }
+    .highlight { color: #d84315; font-weight: bold; background: #FFCCBC; padding: 2px 6px; border-radius: 4px; }
 
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; display: none; justify-content: center; align-items: center; backdrop-filter: blur(3px); }
+    /* Modal */
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+        z-index: 200; display: none; justify-content: center; align-items: center; backdrop-filter: blur(3px);
+    }
     .modal-overlay.open { display: flex; }
-    .modal-content { background: white; width: 80%; max-width: 600px; padding: 30px; border-radius: 20px; border: 5px solid #FFE0B2; position: relative; }
+    .modal-content {
+        background: white; width: 80%; max-width: 600px; padding: 30px;
+        border-radius: 20px; border: 5px solid #FFE0B2; position: relative;
+    }
     .modal-close { position: absolute; top: 10px; right: 15px; font-size: 30px; cursor: pointer; }
     .radical-grid { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 20px; }
-    .radical-char-btn { width: 60px; height: 60px; font-size: 30px; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; cursor: pointer; background: #FFF3E0; border-radius: 10px; font-family: "標楷體"; }
+    .radical-char-btn {
+        width: 60px; height: 60px; font-size: 30px; border: 1px solid #ddd;
+        display: flex; align-items: center; justify-content: center; cursor: pointer;
+        background: #FFF3E0; border-radius: 10px; font-family: "標楷體";
+    }
 
     body.overview-mode #characters-container { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: stretch; }
     body.overview-mode .word-group-wrapper { width: 45%; min-width: 300px; margin: 10px; border-top: 8px solid var(--primary); }
@@ -138,7 +199,11 @@
         .print-char-block { text-align: center; margin-bottom: 5px; } 
         .print-char-big { font-size: 56px; font-family: "標楷體"; font-weight: bold; line-height: 1; }
         .print-grid-container { flex: 1; display: flex; gap: 5px; }
-        .print-grid-box { width: 70px; height: 70px; border: 2px solid #000 !important; background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc3MCcgaGVpZ2h0PSc3MCc+CiAgPGxpbmUgeDE9JzAnIHkxPSczNScgeDI9JzcwJyB5Mj0nMzUnIHN0cm9rZT0nIzAwMDAlJyBzdHJva2Utd2lkdGg9JzEnIHN0cm9rZS1kYXNoYXJyYXk9JzMsMycvPgogIDxsaW5lIHgxPSczNScgeTE9JzAnIHgyPSczNScgeTI9JzcwJyBzdHJva2U9JyMwMDAwJyBzdHJva2Utd2lkdGg9JzEnIHN0cm9rZS1kYXNoYXJyYXk9JzMsMycvPgo8L3N2Zz4=") !important; background-color: white !important; }
+        .print-grid-box {
+            width: 70px; height: 70px; border: 2px solid #000 !important;
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc3MCcgaGVpZ2h0PSc3MCc+CiAgPGxpbmUgeDE9JzAnIHkxPSczNScgeDI9JzcwJyB5Mj0nMzUnIHN0cm9rZT0nIzAwMDAlJyBzdHJva2Utd2lkdGg9JzEnIHN0cm9rZS1kYXNoYXJyYXk9JzMsMycvPgogIDxsaW5lIHgxPSczNScgeTE9JzAnIHgyPSczNScgeTI9JzcwJyBzdHJva2U9JyMwMDAwJyBzdHJva2Utd2lkdGg9JzEnIHN0cm9rZS1kYXNoYXJyYXk9JzMsMycvPgo8L3N2Zz4=") !important;
+            background-color: white !important;
+        }
         .print-breakdown-area { margin-left: 20px; }
         .print-breakdown-row { display: flex; align-items: center; margin-top: 8px; border-bottom: 1px dotted #eee; padding-bottom: 5px; }
         .print-label { font-size: 16px; font-weight: bold; color: #000; width: 40px; flex-shrink: 0; }
@@ -156,7 +221,7 @@
             <div class="star-counter"><span>⭐</span> <span id="star-count">0</span></div>
         </div>
 
-        <h1>📘 中文識字通 (V18.1 穩定修復版)</h1>
+        <h1>📘 中文識字通 (V18.2 語文強化版)</h1>
 
         <div class="input-section">
             <label style="font-size: 20px; font-weight: bold; color: var(--primary);">請輸入生字或詞語</label><br><br>
@@ -165,6 +230,7 @@
             <button class="main-btn" style="background-color: #ff9800; margin-left: 10px;" onclick="generateQRCode()">📲 生成 QR Code</button>
             
             <div id="loading" style="display:none; margin-top:10px; color:var(--primary);">⏳ 資料處理中...</div>
+            
             <div id="qrcode-container">
                 <span style="font-weight:bold; color:#d84315;">請學生掃描此 Code 即可直接練習：</span>
                 <div id="qrcode-canvas"></div>
@@ -223,6 +289,7 @@
 
     <template id="char-tab-template">
         <div class="single-char-section">
+            
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                 <div style="font-size:18px; font-weight:bold; color:#8D6E63;">
                     字：<span class="js-char-title" style="font-size:24px; color:var(--primary);"></span>
@@ -233,7 +300,9 @@
 
             <div class="breakdown-section">
                 <div class="visual-label" style="border-color: var(--accent);">🔢 筆畫拆解 (紅色為當前筆畫)</div>
-                <div class="breakdown-grid js-breakdown-target"><span style="color:#aaa; font-size:12px;">讀取中...</span></div>
+                <div class="breakdown-grid js-breakdown-target">
+                    <span style="color:#aaa; font-size:12px;">讀取中...</span>
+                </div>
             </div>
 
             <div class="char-main-row">
@@ -280,11 +349,9 @@
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); playSound('complete');
         }
 
-        // 🔥🔥🔥 修復版資料庫：檢查每個逗號，確保無語法錯誤 🔥🔥🔥
+        // 🔥🔥🔥 強化版資料庫：完整句型 (SVO) + 形容詞 🔥🔥🔥
         const VOCAB_DB = {
-            "打掃": { def: "整理清潔。", sent: ["新年時，全家人一起<b>打掃</b>房子，迎接新開始。", "大家分工合作，把教室<b>打掃</b>得乾乾淨淨。"] },
-            "學校": { def: "學習的地方。", sent: ["我們的<b>學校</b>環境優美，到處都是花草樹木。", "我每天都懷著愉快的心情上<b>學校</b>。"] },
-            "開心": { def: "快樂。", sent: ["今天去公園玩，大家都玩得很<b>開心</b>。", "看到你笑得這麼<b>開心</b>，我也很高興。"] },
+            // [認識自己]
             "頭髮": { def: "頭上的毛。", sent: ["妹妹有一頭烏黑亮麗的長<b>頭髮</b>。", "每天早上，我都要梳理亂蓬蓬的<b>頭髮</b>。"] },
             "肩膀": { def: "頸部兩旁，手臂連接身體的部位。", sent: ["爸爸寬闊的<b>肩膀</b>讓我感到很有安全感。", "書包太重了，背得我<b>肩膀</b>痠痛。"] },
             "儀容": { def: "人的外表容貌。", sent: ["學生每天都要保持整潔的<b>儀容</b>回學校。", "出門前，我會照鏡子整理自己的<b>儀容</b>。"] },
@@ -315,6 +382,8 @@
             "謹慎": { def: "小心仔細。", sent: ["過馬路時要非常<b>謹慎</b>，注意車輛。", "他說話很<b>謹慎</b>，從不亂說別人的壞話。"] },
             "尊重": { def: "敬重、重視。", sent: ["我們要<b>尊重</b>別人的不同意見。", "<b>尊重</b>師長是學生的基本本分。"] },
             "誠實": { def: "不說謊、老實。", sent: ["<b>誠實</b>是做人最重要的美德。", "華盛頓是個<b>誠實</b>的孩子，承認了錯誤。"] },
+            
+            // [食物]
             "吃": { def: "進食。", sent: ["我喜歡<b>吃</b>香甜的紅蘋果。", "大家圍在一起開心地<b>吃</b>晚飯。"] },
             "飲": { def: "喝。", sent: ["多<b>飲</b>水有益身體健康。", "我們去茶樓<b>飲</b>茶吃點心。"] },
             "烹調": { def: "煮食。", sent: ["媽媽擅長<b>烹調</b>各種美味的菜餚。", "這道菜的<b>烹調</b>方法非常簡單。"] },
@@ -350,6 +419,8 @@
             "清洗": { def: "洗乾淨。", sent: ["受傷後要先<b>清洗</b>傷口。", "我们要定期<b>清洗</b>冷氣機。"] },
             "熨斗": { def: "熨衣服的器具。", sent: ["小心<b>熨斗</b>很燙手。", "媽媽用<b>熨斗</b>把衣服熨平。"] },
             "圖案": { def: "花紋或圖形。", sent: ["這塊布的花<b>圖案</b>很美。", "衣服上有可愛的卡通<b>圖案</b>。"] },
+            
+            // [健康]
             "疾病": { def: "病。", sent: ["我們要多運動以預防<b>疾病</b>。", "醫生盡力治療病人的<b>疾病</b>。"] },
             "細菌": { def: "微生物。", sent: ["勤洗手可以殺滅<b>細菌</b>。", "<b>細菌</b>感染會引致生病。"] },
             "生病": { def: "患病。", sent: ["他<b>生病</b>了，沒有來上學。", "<b>生病</b>時要看醫生和吃藥。"] },
@@ -365,6 +436,8 @@
             "休息": { def: "暫停活動以恢復體力。", sent: ["累了就要多<b>休息</b>。", "午間<b>休息</b>時間，大家都在睡覺。"] },
             "運動": { def: "體育活動。", sent: ["多做<b>運動</b>身體好。", "學校每年都舉辦<b>運動</b>會。"] },
             "習慣": { def: "常做的事。", sent: ["養成早睡早起的好<b>習慣</b>。", "咬手指是個壞<b>習慣</b>。"] },
+
+            // [家庭]
             "家庭": { def: "一家人。", sent: ["我有一個幸福快樂的<b>家庭</b>。", "<b>家庭</b>溫暖最重要。"] },
             "父母": { def: "爸爸媽媽。", sent: ["我們要孝順<b>父母</b>。", "<b>父母</b>非常愛護子女。"] },
             "爸爸": { def: "父親。", sent: ["<b>爸爸</b>每天辛勤地去上班。", "我愛我的<b>爸爸</b>。"] },
@@ -376,6 +449,9 @@
             "妹妹": { def: "胞妹。", sent: ["<b>妹妹</b>哭了，我去哄她。", "可愛的<b>妹妹</b>正在睡覺。"] },
             "孝順": { def: "盡孝道。", sent: ["我們要<b>孝順</b>父母和長輩。", "他是個<b>孝順</b>的好孩子。"] },
             "幫忙": { def: "協助。", sent: ["我喜歡<b>幫忙</b>做家務。", "謝謝你的熱心<b>幫忙</b>。"] },
+            
+            // [學校]
+            "學校": { def: "學習的地方。", sent: ["我們的<b>學校</b>很美麗。", "我每天準時到<b>學校</b>上課。"] },
             "中學": { def: "中等教育。", sent: ["哥哥升上了<b>中學</b>。", "<b>中學</b>的功課比小學多。"] },
             "小學": { def: "初等教育。", sent: ["我就讀這所<b>小學</b>。", "我是快樂的<b>小學</b>生。"] },
             "老師": { def: "教師。", sent: ["<b>老師</b>用心教導我們。", "我們要尊敬<b>老師</b>。"] },
@@ -389,6 +465,8 @@
             "電腦": { def: "計算機。", sent: ["我們在學校學用<b>電腦</b>。", "這部<b>電腦</b>壞了。"] },
             "音樂": { def: "聲音藝術。", sent: ["我喜歡聽優美的<b>音樂</b>。", "我們上了一節快樂的<b>音樂</b>課。"] },
             "體育": { def: "身體鍛鍊。", sent: ["<b>體育</b>課是我的最愛。", "多做<b>體育</b>運動身體好。"] },
+
+            // [社區]
             "社區": { def: "社會區域。", sent: ["這裏的<b>社區</b>設施很完善。", "我們要服務<b>社區</b>。"] },
             "公園": { def: "供公眾遊樂的地方。", sent: ["週末我們去<b>公園</b>玩耍。", "<b>公園</b>裏有很多人在散步。"] },
             "商場": { def: "購物中心。", sent: ["媽媽帶我去<b>商場</b>買衣服。", "這個<b>商場</b>正在大減價。"] },
@@ -397,6 +475,8 @@
             "消防員": { def: "救火的人。", sent: ["<b>消防員</b>勇敢地救火。", "我長大想當<b>消防員</b>。"] },
             "郵差": { def: "派信的人。", sent: ["<b>郵差</b>叔叔每天派信。", "我們在等<b>郵差</b>送信來。"] },
             "工作": { def: "做事。", sent: ["爸爸努力<b>工作</b>。", "找一份合適的<b>工作</b>。"] },
+
+            // [交通]
             "交通": { def: "往來運輸。", sent: ["香港的<b>交通</b>很方便。", "我們要遵守<b>交通</b>規則。"] },
             "巴士": { def: "公車。", sent: ["我們搭<b>巴士</b>去公園。", "<b>巴士</b>站有很多人排隊。"] },
             "的士": { def: "計程車。", sent: ["爸爸截了一輛<b>的士</b>。", "坐<b>的士</b>比較貴但方便。"] },
@@ -405,11 +485,15 @@
             "飛機": { def: "航空器。", sent: ["我們搭<b>飛機</b>去旅行。", "<b>飛機</b>飛上藍天。"] },
             "安全": { def: "平安。", sent: ["過馬路要注意<b>安全</b>。", "注意交通<b>安全</b>。"] },
             "斑馬線": { def: "行人穿越道。", sent: ["過馬路要走<b>斑馬線</b>。", "汽車在<b>斑馬線</b>前停下。"] },
+
+            // [房屋]
             "大廈": { def: "高樓。", sent: ["這座高樓<b>大廈</b>有很多層。", "我們住在這座<b>大廈</b>裏。"] },
             "升降機": { def: "電梯。", sent: ["我們搭<b>升降機</b>上樓。", "<b>升降機</b>壞了，要走樓梯。"] },
             "樓梯": { def: "階梯。", sent: ["行<b>樓梯</b>有益健康。", "上落<b>樓梯</b>要小心。"] },
             "窗": { def: "通風口。", sent: ["打開<b>窗</b>戶讓空氣流通。", "媽媽在抹<b>窗</b>。"] },
             "門": { def: "出入口。", sent: ["請隨手關<b>門</b>。", "有人在敲<b>門</b>。"] },
+
+            // [認識香港/中國]
             "香港": { def: "地名。", sent: ["我愛<b>香港</b>。", "<b>香港</b>是東方之珠。"] },
             "中國": { def: "國家名。", sent: ["<b>中國</b>地大物博。", "我們是<b>中國</b>人。"] },
             "國旗": { def: "國家旗幟。", sent: ["學校舉行升<b>國旗</b>儀式。", "五星紅旗是中國的<b>國旗</b>。"] },
@@ -418,6 +502,8 @@
             "新年": { def: "春節。", sent: ["農曆<b>新年</b>很熱鬧。", "祝你<b>新年</b>快樂。"] },
             "中秋節": { def: "賞月節日。", sent: ["<b>中秋節</b>一家人吃月餅。", "<b>中秋節</b>晚上月亮很圓。"] },
             "端午節": { def: "龍舟節。", sent: ["<b>端午節</b>我們會吃粽子。", "<b>端午節</b>有龍舟比賽。"] },
+
+            // [自然/動植物]
             "太陽": { def: "日。", sent: ["<b>太陽</b>從東方升起。", "冬天曬<b>太陽</b>很舒服。"] },
             "月亮": { def: "月球。", sent: ["晚上的<b>月亮</b>彎彎的。", "中秋節賞<b>月亮</b>。"] },
             "花": { def: "植物的花。", sent: ["花園裏開滿了紅<b>花</b>。", "我們一起種<b>花</b>。"] },
@@ -426,6 +512,8 @@
             "狗": { def: "犬。", sent: ["小<b>狗</b>對著陌生人吠。", "我養了一隻<b>狗</b>。"] },
             "貓": { def: "貓咪。", sent: ["小<b>貓</b>喜歡捉老鼠。", "<b>貓</b>在睡覺。"] },
             "魚": { def: "水生動物。", sent: ["金<b>魚</b>在水裏游。", "爸爸養了很多<b>魚</b>。"] },
+
+            // [社交]
             "請": { def: "禮貌用語。", sent: ["<b>請</b>坐下來。", "<b>請</b>進來。"] },
             "多謝": { def: "感謝。", sent: ["<b>多謝</b>你的禮物。", "<b>多謝</b>老師的教導。"] },
             "對不起": { def: "道歉。", sent: ["<b>對不起</b>，我遲到了。", "做錯事要說<b>對不起</b>。"] },
@@ -474,13 +562,8 @@
             state.writers = {}; 
 
             try {
-                // 簡易相容處理
                 const word = input;
-                if (!/[\u4e00-\u9fa5]/.test(word)) {
-                    loading.style.display = 'none';
-                    alert("請輸入中文字！");
-                    return;
-                }
+                if (!/[\u4e00-\u9fa5]/.test(word)) return;
                 
                 const card = createCardElement(word);
                 container.appendChild(card); 
@@ -765,12 +848,9 @@
             const defEl = cardElement.querySelector('.js-def-text');
             const sentListEl = cardElement.querySelector('.js-sentence-list'); 
             
-            // 安全獲取 sent
-            const localData = VOCAB_DB[word];
-            if (localData) {
-                defEl.innerHTML = localData.def;
-                const sentences = localData.sent || []; // 防止 undefined
-                sentListEl.innerHTML = sentences.map(s => `<li class="sentence-item">${s}</li>`).join('');
+            if (VOCAB_DB[word]) {
+                defEl.innerHTML = VOCAB_DB[word].def;
+                sentListEl.innerHTML = VOCAB_DB[word].sent.map(s => `<li class="sentence-item">${s}</li>`).join('');
                 return;
             }
 
